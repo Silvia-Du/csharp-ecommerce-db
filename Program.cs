@@ -1,16 +1,75 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using csharp_ecommerce_db;
-//using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 
-Console.WriteLine("Hello, World!");
 
 
 ECommerceContext db = new();
 
+void setNewOrder(List<Product> products, Customer customer, Employee employee)
+{
+    Order order = new();
+    order.ProductList = products;
+    order.Date = DateTime.UtcNow; 
+    order.Ammount = getTotalPrice(products);
+    order.Status = "in process";
+    order.Customer = customer;
+    order.Employee = employee;
 
-    
+
+}
+
+Payment setPayment(float ammount, Order order)
+{
+    Payment payment = new();
+    payment.Date = DateTime.UtcNow;
+    payment.Ammount = ammount;
+    //creo un'azione randomica per creare o meno uno o piu tentativi di pagamento
+    int random = new Random().Next(0, 1);
+    switch (random)
+    {
+        case 0: payment.Status = "non processato";
+            payment.Order = order;
+            db.Add(payment);
+            db.SaveChanges();
+            Payment payment2 = new() { Date = DateTime.UtcNow, Ammount = ammount, Status = "a buon fine", Order = order };
+            db.Add(payment2);
+            db.SaveChanges();
+            break;
+        case 1: payment.Status = "a buon fine";
+            payment.Order = order;
+            db.Add(payment);
+            db.SaveChanges();
+            break;
+    }
+
+    return payment;
+}
+
+float getTotalPrice(List<Product> products)
+{
+    float total =0;
+    foreach (Product product in products)
+    {
+        total += (float)product.Price;
+    }
+    return total;
+}
+
+Customer getCustomerId(string email)
+{
+    Customer customer = db.Customers.Where(customer => customer.Email == email).First();    
+    return customer;
+}
+Employee getEmployeeId(string surname)
+{
+    Employee employee = db.Employees.Where(employee => employee.Surname == surname).First();
+    return employee;
+}
+
+
 
 void printProductList()
 {
