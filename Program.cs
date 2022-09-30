@@ -1,25 +1,100 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using csharp_ecommerce_db;
-using Microsoft.Build.Tasks.Deployment.Bootstrapper;
+//using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 
 Console.WriteLine("Hello, World!");
 
 ECommerceContext db = new();
-//Product product1 = new() { Name = "patatine", Description = "buonissime e croccanti", Price = 2.33F, Quantity = 0 };
 
-Customer customer1 = new () { Name = "Dudi", Surname = "Dudidu", Email = "dudi@dudidu.it" };
-Customer customer2 = new() { Name = "Ugo", Surname = "Deughi", Email = "ugo@gmail.icom" };
 
-Employee employee1 = new() { Name = "margherita", Surname = "Marghe", Level= "Primo" };
-Employee employee2 = new() { Name = "Dan", Surname = "Dindi", Level = "Secondo" };
+void addNewCustomer()
+{
+    Console.WriteLine("Inserisci il nome");
+    string name = Console.ReadLine();
+    Console.WriteLine("Inserisci il Cognome");
+    string surname = Console.ReadLine();
+    Console.WriteLine("Inserisci l'email");
+    string email = Console.ReadLine();
+    bool check = false;
 
-db.Add(customer1);
-db.Add(customer2);
-db.Add(employee1);
-db.Add(employee2);
-db.SaveChanges();
+    while (!check)
+    {
+        try
+        {
+            Customer newCustomer = new() { Name = name, Surname = surname, Email = email };
+            db.Add(newCustomer);
+            db.SaveChanges();
+            check = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            check = false;
+        }
+    }
+    string output = check ? "Inserimento avvenuto correttamente" : "";
+    Console.WriteLine(output);
+}
+
+void addNewEmployee()
+{
+    Console.WriteLine("Inserisci il nome");
+    string? name = Console.ReadLine();
+    Console.WriteLine("Inserisci il Cognome");
+    string? surname = Console.ReadLine();
+    Console.WriteLine("Inserisci il livello");
+    string? level = Console.ReadLine();
+    bool check = false;
+
+    while (!check)
+    {
+        try
+        {
+            Employee newEmployee = new() { Name = name, Surname = surname, Level = level };
+            db.Add(newEmployee);
+            db.SaveChanges();
+            check = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            check = false;
+        }
+    }
+    string output = check ? "Inserimento avvenuto correttamente" : "";
+    Console.WriteLine(output);
+}
+
+void addNewProduct()
+{
+    Console.WriteLine("Inserisci il nome prodotto");
+    string? name = Console.ReadLine();
+    Console.WriteLine("Inserisci il Cognome");
+    string? description = Console.ReadLine();
+    Console.WriteLine("Inserisci il livello");
+    float? price = Convert.ToSingle(Console.ReadLine());
+    bool check = false;
+
+    while (!check)
+    {
+        try
+        {
+            Product newProduct = new() { Name = name, Description = description, Price = price , Quantity = 0};
+            db.Add(newProduct);
+            db.SaveChanges();
+            check = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            check = false;
+        }
+    }
+    string output = check ? "Inserimento avvenuto correttamente" : "";
+    Console.WriteLine(output);
+}
 
 
 

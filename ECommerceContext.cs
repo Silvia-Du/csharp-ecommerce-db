@@ -9,7 +9,7 @@ public class ECommerceContext : DbContext
     public DbSet<Employee>? Employees { get; set; }
     public DbSet<Order>? Orders { get; set; }
     public DbSet<Payment>? Payments { get; set; }
-    public DbSet<Customers>? Products { get; set; }
+    public DbSet<Product>? Products { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

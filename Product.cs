@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace csharp_ecommerce_db
 {
     [Table("Product")]
-    public class Customers
+    public class Product
     {
         [Key]
         public int ProductId { get; set; }
