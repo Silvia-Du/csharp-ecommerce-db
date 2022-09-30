@@ -8,6 +8,19 @@ using System.Net.Http.Headers;
 
 ECommerceContext db = new();
 
+bool stopProgram = false;
+
+while (!stopProgram)
+{
+    // si registra, 
+    // cerca un prodotto se trovato va nel carrello
+    // vuoi aggiungere oppure finire
+    // riepilogo ordine e pagamento
+
+
+    Console.WriteLine("");
+}
+
 void setNewOrder(List<Product> products, Customer customer, Employee employee)
 {
     Order order = new();
@@ -17,7 +30,9 @@ void setNewOrder(List<Product> products, Customer customer, Employee employee)
     order.Status = "in process";
     order.Customer = customer;
     order.Employee = employee;
-
+    order.Payments = setPayment(order.Ammount, order);
+    db.Add(order);
+    db.SaveChanges();
 
 }
 
