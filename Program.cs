@@ -21,8 +21,9 @@ void setNewOrder(List<Product> products, Customer customer, Employee employee)
 
 }
 
-Payment setPayment(float ammount, Order order)
+List<Payment> setPayment(float ammount, Order order)
 {
+    List<Payment> result = new();
     Payment payment = new();
     payment.Date = DateTime.UtcNow;
     payment.Ammount = ammount;
@@ -34,18 +35,22 @@ Payment setPayment(float ammount, Order order)
             payment.Order = order;
             db.Add(payment);
             db.SaveChanges();
+            result.Add(payment);
             Payment payment2 = new() { Date = DateTime.UtcNow, Ammount = ammount, Status = "a buon fine", Order = order };
             db.Add(payment2);
             db.SaveChanges();
+            result.Add(payment2);
+
             break;
         case 1: payment.Status = "a buon fine";
             payment.Order = order;
             db.Add(payment);
             db.SaveChanges();
+            result.Add(payment);
             break;
     }
 
-    return payment;
+    return result;
 }
 
 float getTotalPrice(List<Product> products)
