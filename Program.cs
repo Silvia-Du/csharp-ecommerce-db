@@ -6,7 +6,26 @@ using System.Net.Http.Headers;
 
 Console.WriteLine("Hello, World!");
 
+
 ECommerceContext db = new();
+
+
+    
+
+void printProductList()
+{
+    //method sintax
+    //List<Product> products = db.Products.OrderBy(product => product.Name).ToList<Product>();
+    //query sintax
+    List<Product> products = (
+        from p in db.Products
+        orderby p.Name
+        select p).ToList<Product>();
+    foreach (Product product in products)
+    {
+        Console.WriteLine($"nome: {product.Name}, prezzo: {product.Price}, descrizione: {product.Description}");
+    }
+}
 
 
 void addNewCustomer()
